@@ -24,25 +24,26 @@ const particlesOptions = {
 
 const app = new Clarifai.App({apiKey: 'b8ed28339079472896a65e2e262e5205'});
 
+const initialState = {
+	input: '',
+	imageUrl: '',
+	box: {},
+	route: 'signin',
+	isSignedIn: false,
+	user: {
+		id: '',
+		name: '',
+		email: '',
+		entries: 0,
+		joined: ''
+	}
+}
+
 class App extends Component {
 	constructor() {
 		super();
-		this.state = {
-			input: '',
-			imageUrl: '',
-			box: {},
-			route: 'signin',
-			isSignedIn: false,
-			user: {
-				id: '',
-				name: '',
-				email: '',
-				entries: 0,
-				joined: ''
-			}
-		}
+		this.state = initialState;
 	}
-
 	calculateFaceLocation = (data) => {
 		const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
 		const image = document.getElementById('inputimage');
@@ -104,7 +105,8 @@ class App extends Component {
 
 	onRouteChange = (route) => {
 		if (route === 'signout'){
-			this.setState({isSignedIn : false});
+			this.setState(initialState);
+
 		}else if (route === 'home'){
 			this.setState({isSignedIn : true});
 		}
